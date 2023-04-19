@@ -32,5 +32,25 @@ from .serializers import RideSerializer
 def ride_list(request):
     rides = Ride.objects.all()
     serializer = RideSerializer(rides, many=True)
-    return JsonResponse(serializer.data)
+    return JsonResponse(serializer.data, safe=False)
+```
+* Create URL for app
+```python
+from django.urls import path
+from pelofondo import views
+
+urlpatterns = [
+    path('rides/', views.ride_list),
+]
+```
+* Import app URLs into project URLS
+```python
+from django.contrib import admin
+from django.urls import path, include
+from pelofondo import urls
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', include('pelofondo.urls'), name='pelofondo_urls')
+]
 ```
