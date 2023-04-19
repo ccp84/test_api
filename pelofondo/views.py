@@ -8,4 +8,4 @@ from .serializers import RideSerializer
 def ride_list(request):
     rides = Ride.objects.all()
     serializer = RideSerializer(rides, many=True)
-    return JsonResponse(serializer.data)
+    return JsonResponse(serializer.data, safe=False)
