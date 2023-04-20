@@ -1,5 +1,7 @@
 # Project development
 
+[Course here](https://www.youtube.com/watch?v=i5JykvxUk_A)
+
 * Install django `pip install 'django<4'`
 * Install rest `pip install djangorestframework` add rest_framework to installed apps list
 * Start your project `django-admin startproject pelopals .`
