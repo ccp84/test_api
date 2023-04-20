@@ -13,7 +13,7 @@ def ride_list(request):
     if request.method == 'GET':
         rides = Ride.objects.all()
         serializer = RideSerializer(rides, many=True)
-        return JsonResponse({'data': serializer.data})
+        return Response(serializer.data)
 
     elif request.method == 'POST':
         serializer = RideSerializer(data=request.data)
