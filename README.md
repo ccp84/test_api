@@ -114,3 +114,8 @@ def ride_detail(request, id):
         ride.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 ```
+
+## Media and Static on AWS
+* Install pillow, django-storages, boto3 `pip install Pillow django-storages boto3`
+* Create media folder in root
+* In settings - import os
