@@ -32,7 +32,7 @@ from .serializers import RideSerializer
 def ride_list(request):
     rides = Ride.objects.all()
     serializer = RideSerializer(rides, many=True)
-    return JsonResponse(serializer.data, safe=False)
+    return JsonResponse({'data': serializer.data}) //returns an object
 ```
 * Create URL for app
 ```python
@@ -54,3 +54,6 @@ urlpatterns = [
     path('', include('pelofondo.urls'), name='pelofondo_urls')
 ]
 ```
+* URL returns data : https://rest-tutorial.herokuapp.com/rides/
+
+## CRUD Capability
