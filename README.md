@@ -22,6 +22,8 @@ class RideSerializer(serializers.ModelSerializer):
         model = Ride
         fields = ['id', 'name', 'description', 'stacktime', 'stackleader']
 ```
+* For a read only field add this before Meta `owner = serializers.ReadOnlyField(source='owner.username')`
+
 * Create the view to serialize the data
 ```python
 from django.shortcuts import render
@@ -177,4 +179,14 @@ def create_profile(sender, instance, created, **kwargs):
         Profile.objects.create(owner=instance)
 
 post_save.connect(create_profile(sender=User))
+```
+
+## Converting to class views with mixins
+* [Resource here](https://www.django-rest-framework.org/tutorial/3-class-based-views/)
+* Import `from rest_framework import generics`
+* Build CBV:
+```python
+class profile_detail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
 ```

@@ -17,9 +17,11 @@ from django.contrib import admin
 from django.urls import path, include
 from pelofondo import urls
 from shoutouts import urls
+from profiles import urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('pelofondo.urls'), name='pelofondo_urls'),
     path('', include('shoutouts.urls'), name='shoutouts_urls'),
+    path('', include('profiles.urls'), name='profiles_urls'),
 ]
