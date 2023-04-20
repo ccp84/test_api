@@ -57,3 +57,32 @@ urlpatterns = [
 * URL returns data : https://rest-tutorial.herokuapp.com/rides/
 
 ## CRUD Capability
+
+* Import api_decorators to use with views
+```python
+from rest_framework.decorators import api_view <<New import
+
+
+# Create your views here.
+@api_view(['GET', 'POST']) <<New decorator
+def ride_list(request):
+```
+
+* Add Post functionality to view - Use if statements to check method being used 
+```python
+from rest_framework.response import Response << New import
+from rest_framework import status << New import
+
+@api_view(['GET', 'POST'])
+def ride_list(request):
+    if request.method == 'GET':
+        rides = Ride.objects.all()
+        serializer = RideSerializer(rides, many=True)
+        return JsonResponse({'data': serializer.data})
+
+    if request.method == 'POST':
+        serializer = RideSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+```
