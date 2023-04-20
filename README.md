@@ -86,3 +86,29 @@ def ride_list(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 ```
+
+* Add ride detail view
+* Create detail URL - `path('rides/<int:id', views.ride_detail),`
+* Create the view:
+```python
+from django.shortcuts import get_object_or_404 << new import
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def ride_detail(request, id):
+    ride = get_object_or_404(Ride, pk=id)
+
+    if request.method == 'GET':
+        serializer = RideSerializer(ride)
+        return Response(serializer.data)
+    elif request.method == 'PUT':
+        serializer = RideSerializer(ride, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(
+                serializer._errors, status=status.HTTP_400_BAD_REQUEST)
+    elif request.method == 'DELETE':
+        ride.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+```
