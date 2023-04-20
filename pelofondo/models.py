@@ -7,3 +7,6 @@ class Ride(models.Model):
     description = models.TextField()
     stacktime = models.DateTimeField(null=True)
     stackleader = models.CharField(max_length=100, null=True)
+
+    def __str__(self):
+        return self.name

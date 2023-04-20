@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'storages',
     'pelofondo',
     'shoutouts',
+    'profiles',
 ]
 
 MIDDLEWARE = [

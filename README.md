@@ -165,3 +165,16 @@ MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
 * In models - add image field `image = models.ImageField(upload_to='media/')`
 
 * Create env : `os.environ["KEY"] =`
+
+## Creating model signals
+
+* Add imports to top of models `from django.db.models.signals import post_save`
+* Write function:
+```python
+# Signal connecting to User on save
+def create_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(owner=instance)
+
+post_save.connect(create_profile(sender=User))
+```
