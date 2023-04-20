@@ -190,3 +190,32 @@ class profile_detail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
 ```
+
+## Add REST auth login URL path
+* `path('api-auth/', include('rest_framework.urls')),`
+
+## Using generic permissions mixin:
+* Import to views `from rest_framework import permissions`
+* Add line to any CBV that you want to use it `permission_classes = [permissions.IsAuthenticatedOrReadOnly]`
+
+## Creating custom permissions:
+```python
+from rest_framework import permissions
+
+
+class IsOwnerOrReadOnly(permissions.BasePermission):
+    """
+    Custom permission to only allow owners of an object to edit it.
+    """
+
+    def has_object_permission(self, request, view, obj):
+        # Read permissions are allowed to any request,
+        # so we'll always allow GET, HEAD or OPTIONS requests.
+        if request.method in permissions.SAFE_METHODS:
+            return True
+
+        # Write permissions are only allowed to the owner of the snippet.
+        return obj.owner == request.user
+```
+* Import `from pelopals.permissions import IsOwnerOrReadOnly`
+* Use `permission_classes = [permissions.IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly] / IsAuthenticated`
