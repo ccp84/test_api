@@ -1,6 +1,12 @@
 asgiref==3.6.0
+boto3==1.26.116
+botocore==1.29.116
 Django==3.2.18
+django-storages==1.13.2
 djangorestframework==3.14.0
 gunicorn==20.1.0
+jmespath==1.0.1
+Pillow==9.5.0
 pytz==2023.3
+s3transfer==0.6.0
 sqlparse==0.4.4

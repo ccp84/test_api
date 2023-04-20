@@ -116,6 +116,52 @@ def ride_detail(request, id):
 ```
 
 ## Media and Static on AWS
+* [Course here](https://www.youtube.com/watch?v=f64Ue2C39Ag)
 * Install pillow, django-storages, boto3 `pip install Pillow django-storages boto3`
+* Add storeages to installed apps
 * Create media folder in root
-* In settings - import os
+* In settings - import os and set media :
+```python
+# Add settings for env
+if os.path.isfile("env.py"):
+   import env
+
+# AWS S3
+
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_KEY')
+
+AWS_STORAGE_BUCKET_NAME = 'pelopals'
+
+AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+
+AWS_DEFAULT_ACL = 'public-read'
+
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400'
+}
+
+AWS_LOCATION = 'static'
+
+AWS_QUERYSTRING_AUTH = False
+
+AWS_HEADERS = {
+    'Access-Control-Allow-Origin': '*',
+}
+
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/3.2/howto/static-files/
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3StaticStorage'
+
+STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/static/'
+
+MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
+```
+* In models - add image field `image = models.ImageField(upload_to='media/')`
+
+* Create env : `os.environ["KEY"] =`
