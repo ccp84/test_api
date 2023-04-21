@@ -39,7 +39,7 @@ class profile_detail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ProfileSerializer
 
 
-class user_list(generics.ListCreateAPIView):
+class user_list(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 

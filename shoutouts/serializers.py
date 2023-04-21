@@ -1,8 +1,11 @@
 from rest_framework import serializers
-from .models import MileStone
+from django.contrib.auth.models import User
+from .models import Milestone
 
 
-class MileStoneSerializer(serializers.ModelSerializer):
+class MilestoneSerializer(serializers.ModelSerializer):
+    owner = serializers.ReadOnlyField(source='owner.username')
+
     class Meta:
-        model = MileStone
-        fields = ['id', 'title', 'image']
+        model = Milestone
+        fields = ['id', 'title', 'image', 'owner']

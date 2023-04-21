@@ -1,6 +1,6 @@
 from django.contrib import admin
-from .models import MileStone
+from .models import Milestone
 
 
 # Register your models here.
-admin.site.register(MileStone)
+admin.site.register(Milestone)

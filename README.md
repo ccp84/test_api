@@ -219,3 +219,16 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
 ```
 * Import `from pelopals.permissions import IsOwnerOrReadOnly`
 * Use `permission_classes = [permissions.IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly] / IsAuthenticated`
+
+## To auto link an owner of a post - [source](https://www.django-rest-framework.org/tutorial/4-authentication-and-permissions/)
+
+* In views within the class add:
+```python
+def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+```
+* To the model add:
+```python
+owner = models.ForeignKey(
+        User, related_name='milestones', on_delete=models.CASCADE)
+```
