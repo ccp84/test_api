@@ -9,12 +9,9 @@ from pelopals.permissions import IsOwnerOrReadOnly
 
 
 # Create your views here.
-class profile_list(APIView):
-
-    def get(self, request):
-        profiles = Profile.objects.all()
-        serializer = ProfileSerializer(profiles, many=True)
-        return Response(serializer.data)
+class profile_list(generics.ListCreateAPIView):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
 
 
 # class profile_detail(APIView):

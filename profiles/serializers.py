@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from .models import Profile
+from shoutouts.models import Milestone
 
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -15,7 +16,7 @@ class ProfileSerializer(serializers.ModelSerializer):
             'updated_at',
             'name',
             'content',
-            'image']
+            'image',]
 
 
 class UserSerializer(serializers.ModelSerializer):

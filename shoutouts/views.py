@@ -26,6 +26,7 @@ from pelopals.permissions import IsOwnerOrReadOnly
 
 
 class milestone_list(generics.ListCreateAPIView):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     queryset = Milestone.objects.all()
     serializer_class = MilestoneSerializer
 
