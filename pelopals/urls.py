@@ -18,6 +18,7 @@ from django.urls import path, include
 from pelofondo import urls
 from shoutouts import urls
 from profiles import urls
+from comments import urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,4 +26,5 @@ urlpatterns = [
     path('', include('pelofondo.urls'), name='pelofondo_urls'),
     path('', include('shoutouts.urls'), name='shoutouts_urls'),
     path('', include('profiles.urls'), name='profiles_urls'),
+    path('', include('comments.urls'), name='comments_urls'),
 ]

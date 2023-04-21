@@ -10,7 +10,7 @@ class Profile(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     name = models.CharField(max_length=100)
     content = models.TextField()
-    image = models.ImageField(upload_to='media/')
+    image = models.ImageField(upload_to='media/', default='media/default.jpg')
 
     class Meta:
         ordering = ['-created_at']
