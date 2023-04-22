@@ -20,6 +20,7 @@ from shoutouts import urls
 from profiles import urls
 from comments import urls
 from likes import urls
+from followers import urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,4 +30,5 @@ urlpatterns = [
     path('', include('profiles.urls'), name='profiles_urls'),
     path('', include('comments.urls'), name='comments_urls'),
     path('', include('likes.urls'), name='likes_urls'),
+    path('', include('followers.urls'), name='followers_urls'),
 ]
