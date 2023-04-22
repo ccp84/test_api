@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'shoutouts',
     'profiles',
     'comments',
+    'likes',
 ]
 
 MIDDLEWARE = [
