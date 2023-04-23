@@ -8,6 +8,9 @@ from followers.models import Followers
 class ProfileSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
     following_id = serializers.SerializerMethodField()
+    milestones_count = serializers.ReadOnlyField()
+    followers_count = serializers.ReadOnlyField()
+    following_count = serializers.ReadOnlyField()
 
     def get_following_id(self, obj):
         user = self.context['request'].user
@@ -28,7 +31,10 @@ class ProfileSerializer(serializers.ModelSerializer):
             'name',
             'content',
             'image',
-            'following_id',]
+            'following_id',
+            'milestones_count',
+            'followers_count',
+            'following_count',]
 
 
 class UserSerializer(serializers.ModelSerializer):
