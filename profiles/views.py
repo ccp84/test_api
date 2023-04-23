@@ -1,37 +1,25 @@
-from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.models import User
 from .models import Profile
 from .serializers import ProfileSerializer, UserSerializer
 from rest_framework import status, generics, permissions
-from rest_framework.views import APIView
 from rest_framework.response import Response
 from pelopals.permissions import IsOwnerOrReadOnly
 
 
-# Create your views here.
-class profile_list(generics.ListCreateAPIView):
+class profile_list(generics.ListAPIView):
+    """
+    List all profiles.
+    No create view as profile creation is handled by django signals.
+    """
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
 
 
-# class profile_detail(APIView):
-#     serializer_class = ProfileSerializer
-#     def get(self, request, pk):
-#         profile = get_object_or_404(Profile, pk=pk)
-#         serializer = ProfileSerializer(profile)
-#         return Response(serializer.data)
-
-#     def put(self, request, pk):
-#         profile = get_object_or_404(Profile, pk=pk)
-#         serializer = ProfileSerializer(profile)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serislizer.data, status=status.HTTP_200_OK)
-#         return Response(
-#               serializer._errors, status=status.HTTP_400_BAD_REQUEST)
-
-class profile_detail(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = [permissions.IsAuthenticated, IsOwnerOrReadOnly]
+class profile_detail(generics.RetrieveUpdateAPIView):
+    """
+    Retrieve or update a profile if you're the owner.
+    """
+    permission_classes = [IsOwnerOrReadOnly]
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
 
