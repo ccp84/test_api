@@ -1,9 +1,10 @@
 from django.shortcuts import render, get_object_or_404
+from django.db.models import Count
 from .models import Milestone
 from .serializers import MilestoneSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework import status, generics, permissions
+from rest_framework import status, generics, permissions, filters
 from pelopals.permissions import IsOwnerOrReadOnly
 
 
@@ -27,7 +28,17 @@ from pelopals.permissions import IsOwnerOrReadOnly
 
 class milestone_list(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-    queryset = Milestone.objects.all()
+    queryset = Milestone.objects.annotate(
+        comments_count=Count('owner__comments', distinct=True),
+        likes_count=Count('owner__likes', distinct=True)
+    )
+    filter_backends = [
+        filters.OrderingFilter
+    ]
+    ordering_fields = [
+        'comments_count',
+        'likes_count',
+    ]
     serializer_class = MilestoneSerializer
 
     def perform_create(self, serializer):

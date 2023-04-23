@@ -7,6 +7,8 @@ from likes.models import Likes
 class MilestoneSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
     like_id = serializers.SerializerMethodField()
+    comments_count = serializers.ReadOnlyField()
+    likes_count = serializers.ReadOnlyField()
 
     def get_like_id(self, obj):
         user = self.context['request'].user
@@ -19,4 +21,11 @@ class MilestoneSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Milestone
-        fields = ['id', 'title', 'image', 'owner', 'like_id']
+        fields = [
+            'id',
+            'title',
+            'image',
+            'owner',
+            'like_id',
+            'comments_count',
+            'likes_count',]
