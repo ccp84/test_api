@@ -258,3 +258,33 @@ class MilestoneListViewTest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         print(response.data)
 ```
+
+## Filtering posts
+`pip install django-filter`
+* Add to django_filters to installed apps
+* Add imports to views
+```python
+from rest_framework import filters
+from django_filters.rest_framework import DjangoFilterBackend
+```
+* Apply filtering and search options
+```python
+filter_backends = [
+        filters.OrderingFilter,
+        filters.SearchFilter,
+        DjangoFilterBackend,
+    ]
+    ordering_fields = [
+        'comments_count',
+        'likes_count',
+    ]
+    search_fields = [
+        'owner__username',
+        'title',
+    ]
+    filterset_fields = [
+        'owner__followed__owner__profile',
+        'likes__owner__profile',
+        'owner__profile',
+    ]
+```

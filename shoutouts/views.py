@@ -5,6 +5,7 @@ from .serializers import MilestoneSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status, generics, permissions, filters
+from django_filters.rest_framework import DjangoFilterBackend
 from pelopals.permissions import IsOwnerOrReadOnly
 
 
@@ -33,11 +34,22 @@ class milestone_list(generics.ListCreateAPIView):
         likes_count=Count('owner__likes', distinct=True)
     )
     filter_backends = [
-        filters.OrderingFilter
+        filters.OrderingFilter,
+        filters.SearchFilter,
+        DjangoFilterBackend,
     ]
     ordering_fields = [
         'comments_count',
         'likes_count',
+    ]
+    search_fields = [
+        'owner__username',
+        'title',
+    ]
+    filterset_fields = [
+        'owner__followed__owner__profile',
+        'likes__owner__profile',
+        'owner__profile',
     ]
     serializer_class = MilestoneSerializer
 

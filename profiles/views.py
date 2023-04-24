@@ -3,6 +3,7 @@ from django.db.models import Count
 from .models import Profile
 from .serializers import ProfileSerializer, UserSerializer
 from rest_framework import status, generics, permissions, filters
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.response import Response
 from pelopals.permissions import IsOwnerOrReadOnly
 
@@ -18,7 +19,8 @@ class profile_list(generics.ListAPIView):
         following_count=Count('owner__followed', distinct=True)
     ).order_by('-created_at')
     filter_backends = [
-        filters.OrderingFilter
+        filters.OrderingFilter,
+        DjangoFilterBackend
     ]
     ordering_fields = [
         'milestones_count',
@@ -26,6 +28,10 @@ class profile_list(generics.ListAPIView):
         'following_count',
         'owner__following__created_at',
         'owner__followed__created_at',
+    ]
+    filterset_fields = [
+        'owner__following__followed__profile',
+        'owner__followed__owner__profile'
     ]
     serializer_class = ProfileSerializer
 
