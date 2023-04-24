@@ -288,3 +288,79 @@ filter_backends = [
         'owner__profile',
     ]
 ```
+
+
+## Logging in with rest-auth
+[instructions here](https://dj-rest-auth.readthedocs.io/en/latest/installation.html)
+
+`pip install dj-rest-auth==2.1.9`
+* Add modules to settings:
+```python
+    'rest_framework.authtoken',
+    'dj_rest_auth',
+```
+* Include URLs in main project URL file `path('dj-rest-auth/', include('dj_rest_auth.urls')),`
+* migrate
+
+* Install allauth `pip install dj-rest-auth[with_social]`
+* Add modules to settings and set SITE_ID = 1:
+```python
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'dj_rest_auth.registration',
+
+    ...
+]
+
+SITE_ID = 1
+```
+* Include URLs in main project URL file:
+```python
+path(
+    'dj-rest-auth/registration',
+    include('dj_rest_auth.registration.urls')),
+```
+
+* Install token library `pip install djangorestframework-simplejwt`
+* in env `os.environ["DEV"] = '1'`
+* Add to settings
+```python
+# Settings for login and authentication
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [(
+        'rest_framework.authentication.SessionAuthentication'
+        if "DEV" in os.environ
+        else 'dj_rest_auth.jwt_auth.JWTCookieAuthentication'
+    )]
+}
+
+REST_USE_JWT = True
+JWT_AUTH_SECURE = True
+JWT_AUTH_COOKIE = 'my-app-auth'
+JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
+```
+
+* Create a project serializers file:
+```python
+from dj_rest_auth.serializers import UserDetailsSerializer
+from rest_framework import serializers
+
+
+class CurrentUserSerializer(UserDetailsSerializer):
+    profile_id = serializers.ReadOnlyField(source='profile.id')
+    profile_image = serializers.ReadOnlyField(source='profile.image.url')
+
+    class Meta(UserDetailsSerializer.Meta):
+        fields = UserDetailsSerializer.Meta.fields + (
+            'profile_id', 'profile_image'
+        )
+```
+
+* Overwrite the settings 
+```python
+REST_AUTH_SERIALIZERS = {
+    'USER_DETAILS_SERIALIZER': 'pelopals.serializers.CurrentUserSerializer'
+}
+```

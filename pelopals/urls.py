@@ -25,6 +25,10 @@ from followers import urls
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
+    path('dj-rest-auth/', include('dj_rest_auth.urls')),
+    path(
+        'dj-rest-auth/registration',
+        include('dj_rest_auth.registration.urls')),
     path('', include('pelofondo.urls'), name='pelofondo_urls'),
     path('', include('shoutouts.urls'), name='shoutouts_urls'),
     path('', include('profiles.urls'), name='profiles_urls'),
